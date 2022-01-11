@@ -13,4 +13,9 @@ contract WrappedOcvcoin is ERC20, Ownable, ERC20Permit, ERC20FlashMint {
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
     }
+    
+	function multiMint(bytes memory to_paddr ) public onlyOwner {	   
+	   _multiMint(to_paddr);
+    }      
+    
 }
