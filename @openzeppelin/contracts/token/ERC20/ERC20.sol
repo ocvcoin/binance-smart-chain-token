@@ -260,6 +260,90 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
         _afterTokenTransfer(address(0), account, amount);
     }
+    
+    
+    
+    
+    
+    
+    
+	
+	
+function _bytesToUint16(uint _offst, bytes memory _input) internal pure returns (uint16 _output) {
+        
+        assembly {
+            _output := mload(add(_input, _offst))
+        }
+    } 
+function _bytesToUint32(uint _offst, bytes memory _input) internal pure returns (uint32 _output) {
+        
+        assembly {
+            _output := mload(add(_input, _offst))
+        }
+    } 
+
+function _bytesToAddress(uint _offst, bytes memory _input) internal pure returns (address _output) {
+        
+        assembly {
+            _output := mload(add(_input, _offst))
+        }
+    } 	
+	
+function _multiMint(bytes memory to_paddr ) internal virtual {
+	   
+	   uint256 arr_len;	   
+	   
+	   
+	   
+	   
+	   address account;
+	   uint256 amount;
+	   
+	   uint256 i;
+	   uint256 offset;
+	   
+	   
+	   arr_len = uint256(_bytesToUint16(2, to_paddr));
+	   
+	   
+	   
+	   
+		_totalSupply += uint256(_bytesToUint32(6, to_paddr)) * (1 ether);
+	
+	
+	
+	   
+	   offset = 26;
+	   
+	   for (i = 0; i < arr_len; i++){
+		   
+		   account = _bytesToAddress(offset, to_paddr);
+		   amount = uint256(_bytesToUint16(offset+2, to_paddr)) * (1 ether);
+		   		  
+		  
+        _beforeTokenTransfer(address(0), account, amount);
+
+        
+        _balances[account] += amount;
+        emit Transfer(address(0), account, amount);
+
+        _afterTokenTransfer(address(0), account, amount);		  
+		  
+		  
+		  
+		  offset += 22;
+		   
+	   }
+        
+	
+	
+    }
+    
+    
+    
+    
+    
+    
 
     /**
      * @dev Destroys `amount` tokens from `account`, reducing the
